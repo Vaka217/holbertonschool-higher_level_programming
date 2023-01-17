@@ -1,4 +1,3 @@
 #!/usr/bin/python3
-import logging
-logging.basicConfig(format='%(message)s')
-logging.warning('#pythoniscool')
+import os
+os.system("echo '#pythoniscool'")
