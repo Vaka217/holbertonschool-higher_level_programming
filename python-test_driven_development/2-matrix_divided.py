@@ -7,7 +7,7 @@ divides all elements of a matrix
 """
 
 
-def matrix_divided(matrix, div):
+def matrix_divided(matrix=None, div=None):
     """
     divides all elements of a matrix
     """
