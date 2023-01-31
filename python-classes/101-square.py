@@ -71,7 +71,7 @@ class Square:
             if i > 0:
                 printing.append('\n')
             for h in range(self.__position[0]):
-                printing.append(" ")    
+                printing.append(" ")
             for z in range(self.__position[0]):
                 printing.append("")
             for j in range(self.__size):
