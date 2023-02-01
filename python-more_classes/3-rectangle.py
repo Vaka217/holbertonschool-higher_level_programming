@@ -57,7 +57,8 @@ class Rectangle:
             return ""
         new = []
         for height in range(self.__height):
+            if height > 0:
+                new.append("\n")
             for width in range(self.__width):
                 new.append("#")
-            new.append("\n")
         return "".join(new)
