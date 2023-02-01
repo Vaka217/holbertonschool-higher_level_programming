@@ -7,7 +7,7 @@ class Rectangle:
     Defines a rectangle by width and height
     """
     number_of_instances = 0
-    print_symbol = "#"
+    print_symbol = '#'
 
     def __init__(self, width=0, height=0):
         """
@@ -64,7 +64,7 @@ class Rectangle:
             if height > 0:
                 new.append("\n")
             for width in range(self.__width):
-                new.append(Rectangle.print_symbol)
+                new.append(str(self.print_symbol))
         return "".join(new)
 
     def __repr__(self):
