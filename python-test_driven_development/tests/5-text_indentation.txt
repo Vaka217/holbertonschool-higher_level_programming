@@ -1,0 +1,26 @@
+The ``5-text_indentation`` module
+======================
+
+Using ``text_indentation``
+-------------------
+
+This is an example text file in reStructuredText format.  First import
+``text_indentation`` from the ``5-text_indentation`` module:
+
+    >>> text_indentation = __import__('5-text_indentation').text_indentation
+
+Trying normal case:
+
+    >>> text_indentation("Hola. Adiós: Hola de nuevo")
+    Hola.
+    <BLANKLINE>
+    Adiós:
+    <BLANKLINE>
+    Hola de nuevo
+
+Trying no string:
+
+    >>> text_indentation(12.05)
+    Traceback (most recent call last):
+    ...
+    TypeError: text must be a string
