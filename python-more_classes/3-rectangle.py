@@ -55,8 +55,9 @@ class Rectangle:
         """ __str__ method"""
         if self.__height == 0 or self.__width == 0:
             return ""
+        new = []
         for height in range(self.__height):
             for width in range(self.__width):
-                print("#", end="")
-            print()
-        return ""
+                new.append("#")
+            new.append("\n")
+        return "".join(new)
