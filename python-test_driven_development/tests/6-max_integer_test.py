@@ -31,7 +31,7 @@ class TestMethods(unittest.TestCase):
 
     def test_one_only(self):
         """ List of one element"""
-        self.assertEqual([9], 18)
+        self.assertEqual([9], 9)
 
 
 if __name__ == '__main__':
