@@ -2,7 +2,7 @@
 """Defines a class BaseGeometry"""
 
 
-class BaseGeometry:
+class BaseGeometry(object):
     """Defines a class BaseGeometry"""
 
     def area(self):
