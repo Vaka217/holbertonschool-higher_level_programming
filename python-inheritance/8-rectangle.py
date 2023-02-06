@@ -2,19 +2,7 @@
 """Defines a class BaseGeometry"""
 
 
-class BaseGeometry(object):
-    """Defines a class BaseGeometry"""
-
-    def area(self):
-        """Public instance method that raises an Exception with a message"""
-        raise Exception("area() is not implemented")
-
-    def integer_validator(self, name, value):
-        """Method that validates value is integer and greater than 0"""
-        if type(value) is not int:
-            raise TypeError(f"{name} must be an integer")
-        elif value <= 0:
-            raise ValueError(f"{name} must be greater than 0")
+BaseGeometry = __import__('7-base_geometry').BaseGeometry
 
 class Rectangle(BaseGeometry):
     """Defines a class Rectangle"""
