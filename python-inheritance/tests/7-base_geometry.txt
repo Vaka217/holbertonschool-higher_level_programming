@@ -29,8 +29,7 @@ TypeError: age must be an integer
 Traceback (most recent call last):
 ...
 TypeError: age must be an integer
->>> print(bg.integer_validator("age", True))
-None
+>>> bg.integer_validator("age", True)
 >>> bg.integer_validator("age", {3, 4})
 Traceback (most recent call last):
 ...
