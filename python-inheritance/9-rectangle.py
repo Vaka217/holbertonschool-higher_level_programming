@@ -13,10 +13,6 @@ class Rectangle(BaseGeometry):
         BaseGeometry.integer_validator(self, "width", width)
         self.__width = width
 
-    def print(self):
-        """Prints width and area of the given rectangle"""
-        print(f'[Rectangle] {self.__width}/{self.__height}')
-
     def __str__(self):
         """The informal representation of the rectangle"""
         return f'[Rectangle] {self.__width}/{self.__height}'
