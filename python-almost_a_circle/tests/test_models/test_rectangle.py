@@ -91,7 +91,9 @@ class TestRectangle(unittest.TestCase):
 
     def test_str(self):
         """ Test Rectangle if __str__ exists"""
-        self.assertNotEqual(Rectangle.__str__, object.__str__)
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            print(Rectangle(1, 1, 1, 1, 1))
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (1) 1/1 - 1/1\n')
 
     def test_display_none(self):
         """ Test Rectangle if x and y don't exist"""
