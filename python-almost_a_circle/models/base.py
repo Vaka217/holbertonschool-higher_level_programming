@@ -30,3 +30,17 @@ class Base:
             dict_objs = [lists.to_dictionary() for lists in list_objs]
         with open(f"{cls.__name__}.json", mode='w', encoding='utf-8') as f:
             f.write(cls.to_json_string(dict_objs))
+
+    @staticmethod
+    def from_json_string(json_string):
+        """ returns the list of the JSON representation json_string"""
+        if json_string is None or len(json_string) == 0:
+            return []
+        return json.loads(json_string)
+
+    @classmethod
+    def create(cls, **dictionary):
+        """ returns an instance with all attributes already set"""
+        dummy = cls(1, 1)
+        dummy.update(**dictionary)
+        return dummy
