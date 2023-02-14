@@ -77,8 +77,32 @@ class Rectangle(Base):
 
     @y.setter
     def y(self, y):
+        """ y setter"""
         if type(y) is not int:
             raise TypeError("y must be an integer")
         elif y < 0:
             raise ValueError("y must be >= 0")
         self.__y = y
+
+    def area(self):
+        """ calculates area of an instance Rectangle"""
+        return self.__height * self.__width
+
+    def display(self):
+        """ prints in stdout the Rectangle instance with #"""
+        if self.__x == 0 and self.__y == 0:
+            print("")
+            return
+        for h in range(self.__y):
+            print("")
+        for i in range(self.__height):
+            for z in range(self.__x):
+                print(" ", end="")
+            for j in range(self.__width):
+                print("#", end="")
+            print("")
+
+    def __str__(self):
+        """ __str__ method"""
+        return (f"[Rectangle] ({self.id}) {self.__x}/{self.__y} "
+                f"- {self.__width}/{self.__height}")
