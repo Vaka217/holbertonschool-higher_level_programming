@@ -90,7 +90,7 @@ class Rectangle(Base):
 
     def display(self):
         """ prints in stdout the Rectangle instance with #"""
-        if self.__x == 0 and self.__y == 0:
+        if self.__height == 0 and self.__width == 0:
             print("")
             return
         for h in range(self.__y):
