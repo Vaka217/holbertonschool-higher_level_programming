@@ -109,4 +109,107 @@ class TestRectangle(unittest.TestCase):
         """ Test Rectangle if display exists"""
         with patch('sys.stdout', new=io.StringIO()) as io_stdout:
             Rectangle(5, 3).display()
-            assert io_stdout.getvalue() == "#####\n#####\n#####\n"
+            self.assertEqual(io_stdout.getvalue(), "#####\n#####\n#####\n")
+
+    def test_to_dictionary(self):
+        """ Test Rectangle to_dictionary method"""
+        r1 = Rectangle(5, 3, 2, 1, 12).to_dictionary()
+        self.assertEqual(r1, {'x': 2, 'y': 1, 'id': 12, 'height': 3, 'width': 5})
+
+    def test_update(self):
+        """ Test Rectangle update method"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update()
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (12) 2/1 - 5/3\n')
+
+    def test_update_one(self):
+        """ Test Rectangle update method with one argument"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(89)
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 2/1 - 5/3\n')
+
+    def test_update_two(self):
+        """ Test Rectangle update method with two arguments"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(89, 2)
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 2/1 - 2/3\n')
+
+    def test_update_three(self):
+        """ Test Rectangle update method with three arguments"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(89, 2, 4)
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 2/1 - 2/4\n')
+
+    def test_update_four(self):
+        """ Test Rectangle update method with four arguments"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(89, 2, 4, 5)
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 5/1 - 2/4\n')
+
+    def test_update_five(self):
+        """ Test Rectangle update method with five arguments"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(89, 2, 4, 5, 7)
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 5/7 - 2/4\n')
+
+    def test_update_kw(self):
+        """ Test Rectangle update method with one kwargument"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(**{ 'id': 89 })
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 2/1 - 5/3\n')
+
+    def test_update_kwtwo(self):
+        """ Test Rectangle update method with two kwarguments"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(**{ 'id': 89, 'width': 1 })
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 2/1 - 1/3\n')
+
+    def test_update_kwthree(self):
+        """ Test Rectangle update method with three kwarguments"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(**{ 'id': 89, 'width': 1, 'height': 2 })
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 2/1 - 1/2\n')
+
+    def test_update_kwfour(self):
+        """ Test Rectangle update method with four kwarguments"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(**{ 'id': 89, 'width': 1, 'height': 2, 'x': 3 })
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 3/1 - 1/2\n')
+
+    def test_update_kwfive(self):
+        """ Test Rectangle update method with five kwarguments"""
+        with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+            r1 = Rectangle(5, 3, 2, 1, 12)
+            r1.update(**{ 'id': 89, 'width': 1, 'height': 2, 'x': 3, 'y': 4 })
+            print(r1)
+            self.assertEqual(io_stdout.getvalue(), '[Rectangle] (89) 3/4 - 1/2\n')
+
+    def test_create_one(self):
+        """ Test Rectangle create method with one argument"""
+        with io.StringIO() as io_stdout:
+            r1 = Rectangle(3, 5, 1).to_dictionary()
+            output1 = io_stdout.getvalue()
+        with io.StringIO() as io_stdout:
+            r2 = Rectangle.create(**r1)
+            output2 = io_stdout.getvalue()
+        self.assertEqual(output1, output2)
