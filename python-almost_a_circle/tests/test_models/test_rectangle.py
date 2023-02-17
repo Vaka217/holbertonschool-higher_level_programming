@@ -4,7 +4,7 @@ import unittest
 from models.rectangle import Rectangle
 import io
 from unittest.mock import patch
-
+from contextlib import redirect_stdout
 
 class TestRectangle(unittest.TestCase):
     """ class for test cases related with the Rectangle class"""
@@ -95,11 +95,13 @@ class TestRectangle(unittest.TestCase):
             print(Rectangle(1, 1, 1, 1, 1))
             self.assertEqual(io_stdout.getvalue(), '[Rectangle] (1) 1/1 - 1/1\n')
 
-    def test_display_none(self):
-        """ Test Rectangle if x and y don't exist"""
-        with self.assertRaises(TypeError):
-            d1 = Rectangle().display()
-
+    def test_basic_display(self):
+            """Test display without x and y"""
+            r = Rectangle(2, 3, 0, 0, 1)
+            with io.StringIO() as buf, redirect_stdout(buf):
+                r.display()
+                output = buf.getvalue()
+                self.assertEqual(output, ("#" * 2 + "\n") * 3)
     def test_display_one(self):
         """ Test Rectangle if y doesn't exist"""
         with self.assertRaises(TypeError):
@@ -213,3 +215,27 @@ class TestRectangle(unittest.TestCase):
             r2 = Rectangle.create(**r1)
             output2 = io_stdout.getvalue()
         self.assertEqual(output1, output2)
+
+    def save_to_none(self):
+        """ Test Rectangle.save_to_file(None)"""
+        Rectangle.save_to_file(None)
+        with open("Rectangle.json", "r") as f:
+            self.assertEqual("[]", f.read())
+
+    def save_to_file(self):
+        """ Test Rectangle.save_to_file() regular cases"""
+        r1 = Rectangle(1, 5, 7, 3, 12)
+        r2 = Rectangle(1, 1, 1, 1, 1)
+        l = [r1, r2]
+        Rectangle.save_to_file(l)
+        with open("Rectangle.json", "r") as f:
+            ls = [r1.to_dictionary(), r2.to_dictionary()]
+            self.assertEqual(json.dumps(ls), f.read())
+
+    def test_load_from_file_no_file(self):
+        """Test load_from_file with no file"""
+        try:
+            os.remove("Rectangle.json")
+        except:
+            pass
+        self.assertEqual(Rectangle.load_from_file(), [])
