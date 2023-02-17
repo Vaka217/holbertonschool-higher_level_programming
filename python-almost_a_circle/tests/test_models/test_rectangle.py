@@ -219,18 +219,33 @@ class TestRectangle(unittest.TestCase):
     def save_to_none(self):
         """ Test Rectangle.save_to_file(None)"""
         Rectangle.save_to_file(None)
-        with open("Rectangle.json", "r") as f:
-            self.assertEqual("[]", f.read())
+        if os.path.exists('Rectangle.json'):
+            with open("Rectangle.json", "r") as f:
+                print(f.read())
+            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+                self.assertEqual(io_stdout.getvalue(), "[]\n")
+
+    def save_to_empty(self):
+        """ Test Rectangle.save_to_file([])"""
+        Rectangle.save_to_file([])
+        if os.path.exists('Rectangle.json'):
+            with open("Rectangle.json", "r") as f:
+                print(f.read())
+            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+                self.assertEqual(io_stdout.getvalue(), "[]\n")
 
     def save_to_file(self):
         """ Test Rectangle.save_to_file() regular cases"""
         r1 = Rectangle(1, 5, 7, 3, 12)
         r2 = Rectangle(1, 1, 1, 1, 1)
-        l = [r1, r2]
-        Rectangle.save_to_file(l)
-        with open("Rectangle.json", "r") as f:
-            ls = [r1.to_dictionary(), r2.to_dictionary()]
-            self.assertEqual(json.dumps(ls), f.read())
+        Rectangle.save_to_file([r1, r2])
+        if os.path.exists('Rectangle.json'):
+            with open("Rectangle.json", "r") as f:
+                print(f.read())
+            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+                self.assertEqual(io_stdout.getvalue(), '[{"id": 12, "width": 1, \
+"height": 5, "x": 7, "y": 3}, {"id": 1, "width": 1, \
+"height": 1, "x": 1, "y": 1}]\n')
 
     def test_load_from_file_no_file(self):
         """Test load_from_file with no file"""

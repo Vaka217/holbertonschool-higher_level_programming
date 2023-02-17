@@ -162,18 +162,32 @@ class TestSquare(unittest.TestCase):
     def save_to_none(self):
         """ Test Square.save_to_file(None)"""
         Square.save_to_file(None)
-        with open("Square.json", "r") as f:
-            self.assertEqual("[]", f.read())
+        if os.path.exists('Square.json'):
+            with open("Square.json", "r") as f:
+                print(f.read())
+            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+                self.assertEqual(io_stdout.getvalue(), "[]\n")
+
+    def save_to_none(self):
+        """ Test Square.save_to_file([])"""
+        Square.save_to_file([])
+        if os.path.exists('Square.json'):
+            with open("Square.json", "r") as f:
+                print(f.read())
+            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+                self.assertEqual(io_stdout.getvalue(), "[]\n")
 
     def save_to_file(self):
         """ Test Square.save_to_file() regular cases"""
         s1 = Square(1, 5, 7, 3)
         s2 = Square(1, 1, 1, 1)
-        l = [s1, s2]
-        Rectangle.save_to_file(l)
-        with open("Square.json", "r") as f:
-            ls = [s1.to_dictionary(), s2.to_dictionary()]
-            self.assertEqual(json.dumps(ls), f.read())
+        Square.save_to_file([r1, r2])
+        if os.path.exists('Square.json'):
+            with open("Square.json", "r") as f:
+                print(f.read())
+            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
+                self.assertEqual(io_stdout.getvalue(), '[{"id": 3, "size": 1, \
+"x": 5, "y": 7}, {"id": 1, "size": 1, "x": 1, "y": 1}]\n')
 
     def test_load_from_file_no_file(self):
         """Test load_from_file with no file"""
