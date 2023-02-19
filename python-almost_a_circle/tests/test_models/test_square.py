@@ -160,36 +160,42 @@ class TestSquare(unittest.TestCase):
             output2 = io_stdout.getvalue()
         self.assertEqual(output1, output2)
 
-    @classmethod
-    def tearDown(self):
-        """Delete files."""
-        try:
-            os.remove("Square.json")
-        except IOError:
-            pass
-        try:
-            os.remove("Base.json")
-        except IOError:
-            pass
+    def save_file_rectangle(self):
+        """Test save_to_file() method of Square
+        """
+        Base._Base__nb_objects = 0
+        s1 = Square(7)
+        Square.save_to_file([s1])
+        self.assertTrue(os.path.exists("Square.json"), True)
+        with open("Square.json", mode='r') as f:
+            self.assertEqual(json.loads(f.read()),
+                             json.loads('[{"y": 0, '
+                                        '"x": 0, '
+                                        '"id": 1, '
+                                        '"size": 7'))
+        os.remove("Square.json")
 
-    def save_to_file_None(self):
-        """ Test Square.save_to_file(None)"""
+    def save_file_rectangle_none(self):
+        """Test save_to_file(None) method of Square
+        """
+        Base._Base__nb_objects = 0
         Square.save_to_file(None)
-        with open("Square.json", "r") as f:
-            self.assertEqual("[]", f.read())
+        self.assertTrue(os.path.exists("Square.json"), True)
+        with open("Square.json", mode='r') as f:
+            self.assertEqual(json.loads(f.read()),
+                             json.loads('[]'))
+        os.remove("Square.json")
 
-    def save_to_file_empty_list(self):
-        """ Test Square.save_to_file([])"""
+    def save_file_rectangle_empty(self):
+        """Test save_to_file([]) method of Square
+        """
+        Base._Base__nb_objects = 0
         Square.save_to_file([])
-        with open("Rectangle.json", "r") as f:
-            self.assertEqual("[]", f.read())
-
-    def save_to_file_square(self):
-        """ Test Square.save_to_file() regular cases"""
-        r1 = Square(10, 7, 2, 8)
-        Square.save_to_file([r1])
-        with open("Square.json", "r") as f:
-            self.assertTrue(len(f.read()) == 39)
+        self.assertTrue(os.path.exists("Square.json"), True)
+        with open("Square.json", mode='r') as f:
+            self.assertEqual(json.loads(f.read()),
+                             json.loads('[]'))
+        os.remove("Square.json")
 
     def test_load_from_file_no_file(self):
         """Test load_from_file with no file"""

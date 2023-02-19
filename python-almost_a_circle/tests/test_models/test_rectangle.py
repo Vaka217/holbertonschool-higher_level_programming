@@ -266,62 +266,51 @@ class TestRectangle(unittest.TestCase):
             output2 = io_stdout.getvalue()
         self.assertEqual(output1, output2)
 
-    @classmethod
-    def tearDown(self):
-        """Delete files."""
-        try:
-            os.remove("Rectangle.json")
-        except IOError:
-            pass
-        try:
-            os.remove("Base.json")
-        except IOError:
-            pass
-
-    def save_to_file_None(self):
-        """ Test Rectangle.save_to_file(None)"""
-        Rectangle.save_to_file(None)
-        with open("Rectangle.json", "r") as f:
-            self.assertEqual("[]", f.read())
-
-    def save_to_file_empty_list(self):
-        """ Test Rectangle.save_to_file([])"""
-        Rectangle.save_to_file([])
-        with open("Rectangle.json", "r") as f:
-            self.assertEqual("[]", f.read())
-
-    def save_to_file_rectangle(self):
-        """ Test Rectangle.save_to_file() regular cases"""
-        r1 = Rectangle(10, 7, 2, 8, 5)
-        Rectangle.save_to_file([r1])
-        with open("Rectangle.json", "r") as f:
-            self.assertTrue(len(f.read()) == 53)
-
-    def test_12_save_file_rect(self):
-        """Test save_to_file() method of Rectangle to serialize
-        and write to a file. Removes file after test if test
-        was able to write to disk.
+    def save_file_rectangle(self):
+        """Test save_to_file() method of Rectangle
         """
         Base._Base__nb_objects = 0
-        R1 = Rectangle(10, 7, 2, 8)
-        R2 = Rectangle(2, 4)
-        Rectangle.save_to_file([R1, R2])
+        r1 = Rectangle(10, 7, 2, 8)
+        r2 = Rectangle(7, 9)
+        Rectangle.save_to_file([r1, r2])
         self.assertTrue(os.path.exists("Rectangle.json"), True)
-        with open("Rectangle.json", mode='r') as myFile:
-            self.assertEqual(json.loads(myFile.read()),
-                             json.loads('[{"y": 8, '
-                                        '"x": 2, '
+        with open("Rectangle.json", mode='r') as f:
+            self.assertEqual(json.loads(f.read()),
+                             json.loads('[{"y": 6, '
+                                        '"x": 4, '
                                         '"id": 1, '
                                         '"width": 10, '
-                                        '"height": 7}, '
+                                        '"height": 5}, '
                                         '{"y": 0, '
                                         '"x": 0, '
                                         '"id": 2, '
-                                        '"width": 2, '
-                                        '"height": 4}]'))
+                                        '"width": 7, '
+                                        '"height": 9}]'))
         os.remove("Rectangle.json")
 
-    def test_load_from_file_no_file(self):
+    def save_file_rectangle_none(self):
+        """Test save_to_file(None) method of Rectangle
+        """
+        Base._Base__nb_objects = 0
+        Rectangle.save_to_file(None)
+        self.assertTrue(os.path.exists("Rectangle.json"), True)
+        with open("Rectangle.json", mode='r') as f:
+            self.assertEqual(json.loads(f.read()),
+                             json.loads('[]'))
+        os.remove("Rectangle.json")
+
+    def save_file_rectangle_empty(self):
+        """Test save_to_file([]) method of Rectangle
+        """
+        Base._Base__nb_objects = 0
+        Rectangle.save_to_file([])
+        self.assertTrue(os.path.exists("Rectangle.json"), True)
+        with open("Rectangle.json", mode='r') as f:
+            self.assertEqual(json.loads(f.read()),
+                             json.loads('[]'))
+        os.remove("Rectangle.json")
+
+    def load_from_file_no_file(self):
         """Test load_from_file with no file"""
         try:
             os.remove("Rectangle.json")
