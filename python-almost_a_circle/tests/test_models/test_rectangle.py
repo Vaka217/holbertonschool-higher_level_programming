@@ -3,6 +3,7 @@
 import unittest
 from models.rectangle import Rectangle
 import io
+import os
 import sys
 from unittest.mock import patch
 from contextlib import redirect_stdout
@@ -263,36 +264,36 @@ class TestRectangle(unittest.TestCase):
             output2 = io_stdout.getvalue()
         self.assertEqual(output1, output2)
 
-    def save_to_none(self):
+    @classmethod
+    def tearDown(self):
+        """Delete files."""
+        try:
+            os.remove("Rectangle.json")
+        except IOError:
+            pass
+        try:
+            os.remove("Base.json")
+        except IOError:
+            pass
+
+    def save_to_file_None(self):
         """ Test Rectangle.save_to_file(None)"""
         Rectangle.save_to_file(None)
-        if os.path.exists('Rectangle.json'):
-            with open("Rectangle.json", "r") as f:
-                print(f.read())
-            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
-                self.assertEqual(io_stdout.getvalue(), "[]\n")
+        with open("Rectangle.json", "r") as f:
+            self.assertEqual("[]", f.read())
 
-    def save_to_empty(self):
+    def save_to_file_empty_list(self):
         """ Test Rectangle.save_to_file([])"""
         Rectangle.save_to_file([])
-        if os.path.exists('Rectangle.json'):
-            with open("Rectangle.json", "r") as f:
-                print(f.read())
-            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
-                self.assertEqual(io_stdout.getvalue(), "[]\n")
+        with open("Rectangle.json", "r") as f:
+            self.assertEqual("[]", f.read())
 
-    def save_to_file(self):
+    def save_to_file_rectangle(self):
         """ Test Rectangle.save_to_file() regular cases"""
-        r1 = Rectangle(1, 5, 7, 3, 12)
-        r2 = Rectangle(1, 1, 1, 1, 1)
-        Rectangle.save_to_file([r1, r2])
-        if os.path.exists('Rectangle.json'):
-            with open("Rectangle.json", "r") as f:
-                print(f.read())
-            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
-                self.assertEqual(io_stdout.getvalue(), '[{"id": 12, "width": 1, \
-"height": 5, "x": 7, "y": 3}, {"id": 1, "width": 1, \
-"height": 1, "x": 1, "y": 1}]\n')
+        r1 = Rectangle(10, 7, 2, 8, 5)
+        Rectangle.save_to_file([r1])
+        with open("Rectangle.json", "r") as f:
+            self.assertTrue(len(f.read()) == 53)
 
     def test_load_from_file_no_file(self):
         """Test load_from_file with no file"""
