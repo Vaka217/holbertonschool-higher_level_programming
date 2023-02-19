@@ -3,6 +3,7 @@
 import unittest
 from models.rectangle import Rectangle
 import io
+import sys
 from unittest.mock import patch
 from contextlib import redirect_stdout
 
@@ -102,6 +103,7 @@ class TestRectangle(unittest.TestCase):
                 r.display()
                 output = buf.getvalue()
                 self.assertEqual(output, ("#" * 2 + "\n") * 3)
+
     def test_display_one(self):
         """ Test Rectangle if y doesn't exist"""
         with self.assertRaises(TypeError):
@@ -112,6 +114,51 @@ class TestRectangle(unittest.TestCase):
         with patch('sys.stdout', new=io.StringIO()) as io_stdout:
             Rectangle(5, 3).display()
             self.assertEqual(io_stdout.getvalue(), "#####\n#####\n#####\n")
+
+    @staticmethod
+    def capture_stdout(rect, method):
+        """Captures and returns text printed to stdout.
+        Args:
+            rect (Rectangle): The Rectangle to print to stdout.
+            method (str): The method to run on rect.
+        Returns:
+            The text printed to stdout by calling method on sq.
+        """
+        capture = io.StringIO()
+        sys.stdout = capture
+        if method == "print":
+            print(rect)
+        else:
+            rect.display()
+        sys.stdout = sys.__stdout__
+        return capture
+
+    def test_display_width_height(self):
+        r = Rectangle(2, 3, 0, 0, 0)
+        capture = TestRectangle.capture_stdout(r, "display")
+        self.assertEqual("##\n##\n##\n", capture.getvalue())
+
+    def test_display_width_height_x(self):
+        r = Rectangle(3, 2, 1, 0, 1)
+        capture = TestRectangle.capture_stdout(r, "display")
+        self.assertEqual(" ###\n ###\n", capture.getvalue())
+
+    def test_display_width_height_y(self):
+        r = Rectangle(4, 5, 0, 1, 0)
+        capture = TestRectangle.capture_stdout(r, "display")
+        display = "\n####\n####\n####\n####\n####\n"
+        self.assertEqual(display, capture.getvalue())
+
+    def test_display_width_height_x_y(self):
+        r = Rectangle(2, 4, 3, 2, 0)
+        capture = TestRectangle.capture_stdout(r, "display")
+        display = "\n\n   ##\n   ##\n   ##\n   ##\n"
+        self.assertEqual(display, capture.getvalue())
+
+    def test_display_one_arg(self):
+        r = Rectangle(5, 1, 2, 4, 7)
+        with self.assertRaises(TypeError):
+            r.display(1)
 
     def test_to_dictionary(self):
         """ Test Rectangle to_dictionary method"""
@@ -254,3 +301,4 @@ class TestRectangle(unittest.TestCase):
         except:
             pass
         self.assertEqual(Rectangle.load_from_file(), [])
+
