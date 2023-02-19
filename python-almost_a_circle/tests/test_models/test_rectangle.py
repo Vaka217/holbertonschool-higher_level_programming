@@ -2,7 +2,9 @@
 """ unitest rectangle module"""
 import unittest
 from models.rectangle import Rectangle
+from models.base import Base
 import io
+import json
 import os
 import sys
 from unittest.mock import patch
@@ -294,6 +296,30 @@ class TestRectangle(unittest.TestCase):
         Rectangle.save_to_file([r1])
         with open("Rectangle.json", "r") as f:
             self.assertTrue(len(f.read()) == 53)
+
+    def test_12_save_file_rect(self):
+        """Test save_to_file() method of Rectangle to serialize
+        and write to a file. Removes file after test if test
+        was able to write to disk.
+        """
+        Base._Base__nb_objects = 0
+        R1 = Rectangle(10, 7, 2, 8)
+        R2 = Rectangle(2, 4)
+        Rectangle.save_to_file([R1, R2])
+        self.assertTrue(os.path.exists("Rectangle.json"), True)
+        with open("Rectangle.json", mode='r') as myFile:
+            self.assertEqual(json.loads(myFile.read()),
+                             json.loads('[{"y": 8, '
+                                        '"x": 2, '
+                                        '"id": 1, '
+                                        '"width": 10, '
+                                        '"height": 7}, '
+                                        '{"y": 0, '
+                                        '"x": 0, '
+                                        '"id": 2, '
+                                        '"width": 2, '
+                                        '"height": 4}]'))
+        os.remove("Rectangle.json")
 
     def test_load_from_file_no_file(self):
         """Test load_from_file with no file"""

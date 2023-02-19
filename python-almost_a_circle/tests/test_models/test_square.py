@@ -160,35 +160,6 @@ class TestSquare(unittest.TestCase):
             output2 = io_stdout.getvalue()
         self.assertEqual(output1, output2)
 
-    def save_to_none(self):
-        """ Test Square.save_to_file(None)"""
-        Square.save_to_file(None)
-        if os.path.exists('Square.json'):
-            with open("Square.json", "r") as f:
-                print(f.read())
-            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
-                self.assertEqual(io_stdout.getvalue(), "[]\n")
-
-    def save_to_none(self):
-        """ Test Square.save_to_file([])"""
-        Square.save_to_file([])
-        if os.path.exists('Square.json'):
-            with open("Square.json", "r") as f:
-                print(f.read())
-            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
-                self.assertEqual(io_stdout.getvalue(), "[]\n")
-
-    def save_to_file(self):
-        """ Test Square.save_to_file() regular cases"""
-        s1 = Square(1, 5, 7, 3)
-        s2 = Square(1, 1, 1, 1)
-        Square.save_to_file([r1, r2])
-        if os.path.exists('Square.json'):
-            with open("Square.json", "r") as f:
-                print(f.read())
-            with patch('sys.stdout', new=io.StringIO()) as io_stdout:
-                self.assertEqual(io_stdout.getvalue(), '[{"id": 3, "size": 1, \
-"x": 5, "y": 7}, {"id": 1, "size": 1, "x": 1, "y": 1}]\n')
     @classmethod
     def tearDown(self):
         """Delete files."""
