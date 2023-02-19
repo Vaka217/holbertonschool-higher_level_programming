@@ -1,3 +1,4 @@
+
 #!/usr/bin/python3
 """ unitest rectangle module"""
 import unittest
@@ -266,29 +267,29 @@ class TestRectangle(unittest.TestCase):
             output2 = io_stdout.getvalue()
         self.assertEqual(output1, output2)
 
-    def save_file_rectangle(self):
+    def test_save_file_rectangle(self):
         """Test save_to_file() method of Rectangle
         """
         Base._Base__nb_objects = 0
         r1 = Rectangle(10, 7, 2, 8)
-        r2 = Rectangle(7, 9)
+        r2 = Rectangle(2, 4)
         Rectangle.save_to_file([r1, r2])
         self.assertTrue(os.path.exists("Rectangle.json"), True)
         with open("Rectangle.json", mode='r') as f:
             self.assertEqual(json.loads(f.read()),
-                             json.loads('[{"y": 6, '
-                                        '"x": 4, '
+                             json.loads('[{"y": 8, '
+                                        '"x": 2, '
                                         '"id": 1, '
                                         '"width": 10, '
-                                        '"height": 5}, '
+                                        '"height": 7}, '
                                         '{"y": 0, '
                                         '"x": 0, '
                                         '"id": 2, '
-                                        '"width": 7, '
-                                        '"height": 9}]'))
+                                        '"width": 2, '
+                                        '"height": 4}]'))
         os.remove("Rectangle.json")
 
-    def save_file_rectangle_none(self):
+    def test_save_file_none(self):
         """Test save_to_file(None) method of Rectangle
         """
         Base._Base__nb_objects = 0
@@ -299,7 +300,7 @@ class TestRectangle(unittest.TestCase):
                              json.loads('[]'))
         os.remove("Rectangle.json")
 
-    def save_file_rectangle_empty(self):
+    def test_save_file_empty(self):
         """Test save_to_file([]) method of Rectangle
         """
         Base._Base__nb_objects = 0
@@ -310,7 +311,7 @@ class TestRectangle(unittest.TestCase):
                              json.loads('[]'))
         os.remove("Rectangle.json")
 
-    def load_from_file_no_file(self):
+    def test_load_from_file_no_file(self):
         """Test load_from_file with no file"""
         try:
             os.remove("Rectangle.json")

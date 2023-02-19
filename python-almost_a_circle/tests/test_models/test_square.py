@@ -2,8 +2,10 @@
 """ unitest square module"""
 import unittest
 from models.square import Square
+from models.base import Base
 import io
 import os
+import json
 from unittest.mock import patch
 from contextlib import redirect_stdout
 
@@ -160,11 +162,11 @@ class TestSquare(unittest.TestCase):
             output2 = io_stdout.getvalue()
         self.assertEqual(output1, output2)
 
-    def save_file_rectangle(self):
+    def test_save_file_square(self):
         """Test save_to_file() method of Square
         """
         Base._Base__nb_objects = 0
-        s1 = Square(7)
+        s1 = Square(10)
         Square.save_to_file([s1])
         self.assertTrue(os.path.exists("Square.json"), True)
         with open("Square.json", mode='r') as f:
@@ -172,10 +174,10 @@ class TestSquare(unittest.TestCase):
                              json.loads('[{"y": 0, '
                                         '"x": 0, '
                                         '"id": 1, '
-                                        '"size": 7'))
+                                        '"size": 10}]'))
         os.remove("Square.json")
 
-    def save_file_rectangle_none(self):
+    def test_save_file_none(self):
         """Test save_to_file(None) method of Square
         """
         Base._Base__nb_objects = 0
@@ -186,8 +188,8 @@ class TestSquare(unittest.TestCase):
                              json.loads('[]'))
         os.remove("Square.json")
 
-    def save_file_rectangle_empty(self):
-        """Test save_to_file([]) method of Square
+    def test_save_file_empty(self):
+        """Test save_to_file([]) method of Rectangle
         """
         Base._Base__nb_objects = 0
         Square.save_to_file([])
