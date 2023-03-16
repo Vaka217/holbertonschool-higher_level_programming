@@ -14,6 +14,7 @@ class State(Base):
     name = Column(String(128), nullable=False)
     children = relationship("City", back_populates="parent")
 
+
 class City(Base):
     """ class for the cities table"""
     __tablename__ = 'cities'
