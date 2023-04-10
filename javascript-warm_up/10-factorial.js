@@ -1,5 +1,5 @@
 #!/usr/bin/node
-let args = process.argv.slice(2);
+const args = process.argv.slice(2);
 function factorial (x) {
   if (isNaN(x) || x === 0) {
     return 1;
