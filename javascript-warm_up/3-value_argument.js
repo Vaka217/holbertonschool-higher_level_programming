@@ -3,6 +3,4 @@ const args = process.argv.slice(2);
 if (Array.isArray(args) && args[0] === undefined) {
   console.log('No argument');
 }
-args.forEach((val) => {
-  console.log(`${val}`);
-});
+console.log(args[0]);
