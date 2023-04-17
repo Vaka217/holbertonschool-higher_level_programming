@@ -4,7 +4,7 @@ const request = require('request');
 request(args[0], function (error, response, body) {
   if (!error) {
     const todos = JSON.parse(body);
-    let tasks = {};
+    const tasks = {};
     todos.forEach((todo) => {
       if (todo.completed && !tasks[todo.userId]) {
         tasks[todo.userId] = 1;
