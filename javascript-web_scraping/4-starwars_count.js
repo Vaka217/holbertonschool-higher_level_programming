@@ -1,18 +1,16 @@
 #!/usr/bin/node
 const args = process.argv.slice(2);
 const request = require('request');
-args[0] = 'https://swapi-api.alx-tools.com/api/films/'
+if (args[0] === 'https://swapi-api.hbtn.io/api/films/') {
+  args[0] = 'https://swapi-api.alx-tools.com/api/films/'
+}
 request(args[0], function (error, response, body) {
-  if (error) {
-    console.log(error);
-  } else {
+  if (!error) {
     const results = JSON.parse(body).results;
     let count = 0;
     for (const i in results) {
-      if (results[i].characters.includes('https://swapi-api.alx-tools.com/api/people/18/')) {
-        count++;
-      }
-    }
+      results[i].characters.find(character => character.endsWith('/18/')) ? count++ : count;
+    };
     console.log(count);
   }
 });
